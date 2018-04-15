@@ -8,15 +8,6 @@ defmodule ShopWeb.ProductTest do
   end
 
   @query """
-  { hello }
-  """
-  test "Hello world", %{conn: conn} do
-    conn = get(conn, "/graphql", query: @query)
-
-    assert json_response(conn, 200) == %{"data" => %{"hello" => "world"}}
-  end
-
-  @query """
   mutation{
     createProduct(title:"New Product!"){title}
   }

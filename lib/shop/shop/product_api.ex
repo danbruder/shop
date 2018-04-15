@@ -30,8 +30,6 @@ defmodule Shop.ProductApi do
       arg(:price, :integer)
 
       resolve(fn _parent, args, _ ->
-        IO.inspect(args)
-
         %Product{}
         |> Product.changeset(args)
         |> Repo.insert()

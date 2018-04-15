@@ -8,7 +8,9 @@ function Products({data: {allProducts, refetch}}) {
       <button onClick={() => refetch()}>Refresh</button>
       <ul>
         {allProducts &&
-          allProducts.map(product => <li key={product.id}>{product.title}</li>)}
+          allProducts.map(product =>
+            <li key={product.id}>{product.title}: {product.price}</li>,
+          )}
       </ul>
     </div>
   );
@@ -19,6 +21,7 @@ export default graphql(gql`
     allProducts {
       id
       title
+      price
     }
   }
 `)(Products);

@@ -11,7 +11,7 @@ defmodule Shop.ProductApi do
     field(:title, :string)
     field(:description, :string)
     field(:image, :string)
-    field(:price, :integer)
+    field(:price, :float)
   end
 
   object :product_queries do
@@ -27,7 +27,7 @@ defmodule Shop.ProductApi do
     field :create_product, :product do
       arg(:title, non_null(:string))
       arg(:description, :string)
-      arg(:price, :integer)
+      arg(:price, :float)
 
       resolve(fn _parent, args, _ ->
         %Product{}
@@ -38,9 +38,9 @@ defmodule Shop.ProductApi do
 
     field :update_product, :product do
       arg(:id, non_null(:integer))
-      arg(:title, non_null(:string))
+      arg(:title, :string)
       arg(:description, :string)
-      arg(:price, :integer)
+      arg(:price, :float)
 
       resolve(fn _parent, args, _ ->
         Repo.get!(Product, args.id)

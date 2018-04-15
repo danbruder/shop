@@ -28,22 +28,22 @@ defmodule Shop.CategoryApi do
 
   object :category_mutations do
     field :create_category, :category do
-      arg(:name, non_null(:string))
+      arg(:input, non_null(:category_input))
 
       resolve(fn _parent, args, _ ->
         %Category{}
-        |> Category.changeset(args)
+        |> Category.changeset(args.input)
         |> Repo.insert()
       end)
     end
 
     field :update_category, :category do
       arg(:id, non_null(:integer))
-      arg(:name, :string)
+      arg(:input, non_null(:category_input))
 
       resolve(fn _parent, args, _ ->
         Repo.get!(Category, args.id)
-        |> Category.changeset(args)
+        |> Category.changeset(args.input)
         |> Repo.update()
       end)
     end

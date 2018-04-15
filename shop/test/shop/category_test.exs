@@ -9,7 +9,7 @@ defmodule ShopWeb.CategoryTest do
 
   @query """
   mutation{
-    createCategory(name:"New Category!"){name}
+    createCategory(input: {name:"New Category!"}){name}
   }
   """
   test "Create a category", %{conn: conn} do
@@ -44,8 +44,8 @@ defmodule ShopWeb.CategoryTest do
   end
 
   @query """
-  mutation UpdateCategoryMutation($id: Int!, $name: String!){
-    updateCategory(id: $id, name: $name){
+  mutation UpdateCategoryMutation($id: Int!, $input: CategoryInput!){
+    updateCategory(id: $id, input: $input){
       name
     }
   }
@@ -53,7 +53,9 @@ defmodule ShopWeb.CategoryTest do
   test "Update Category", %{conn: conn} do
     name = "UPDATED"
     id = Repo.one(from(x in Category, order_by: [desc: x.id], limit: 1, select: x.id))
-    conn = post(conn, "/graphql", query: @query, variables: %{"id" => id, "name" => name})
+
+    conn =
+      post(conn, "/graphql", query: @query, variables: %{"id" => id, input: %{"name" => name}})
 
     assert json_response(conn, 200) == %{
              "data" => %{

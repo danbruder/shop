@@ -35,25 +35,23 @@ defmodule Shop.ProductApi do
 
   object :product_mutations do
     field :create_product, :product do
-      arg(:input, :product_input)
+      arg(:input, non_null(:product_input))
 
-      resolve(fn _parent, %{input: args}, _ ->
+      resolve(fn _parent, args, _ ->
         %Product{}
-        |> Product.changeset(args)
-        |> Ecto.Changeset.put_assoc(:categories, args.categories)
+        |> Product.changeset(args.input)
+        |> Ecto.Changeset.put_assoc(:categories, args.input.categories)
         |> Repo.insert()
       end)
     end
 
     field :update_product, :product do
       arg(:id, non_null(:integer))
-      arg(:title, :string)
-      arg(:description, :string)
-      arg(:price, :float)
+      arg(:input, non_null(:product_input))
 
       resolve(fn _parent, args, _ ->
         Repo.get!(Product, args.id)
-        |> Product.changeset(args)
+        |> Product.changeset(args.input)
         |> Repo.update()
       end)
     end

@@ -47,8 +47,8 @@ defmodule ShopWeb.ProductTest do
   end
 
   @query """
-  mutation UpdateProductMutation($id: Int!, $title: String!){
-    updateProduct(id: $id, title: $title){
+  mutation UpdateProductMutation($id: Int!, $input: ProductInput!){
+    updateProduct(id: $id, input: $input){
       title
     }
   }
@@ -56,7 +56,14 @@ defmodule ShopWeb.ProductTest do
   test "Update Product", %{conn: conn} do
     title = "UPDATED"
     id = Repo.one(from(x in Product, order_by: [desc: x.id], limit: 1, select: x.id))
-    conn = post(conn, "/graphql", query: @query, variables: %{"id" => id, "title" => title})
+
+    conn =
+      post(
+        conn,
+        "/graphql",
+        query: @query,
+        variables: %{"id" => id, "input" => %{"title" => title}}
+      )
 
     assert json_response(conn, 200) == %{
              "data" => %{

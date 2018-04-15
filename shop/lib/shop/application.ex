@@ -12,6 +12,7 @@ defmodule Shop.Application do
       supervisor(Shop.Repo, []),
       # Start the endpoint when the application starts
       supervisor(ShopWeb.Endpoint, []),
+      supervisor(Absinthe.Subscription, [ShopWeb.Endpoint])
       # Start your own worker by calling: Shop.Worker.start_link(arg1, arg2, arg3)
       # worker(Shop.Worker, [arg1, arg2, arg3]),
     ]

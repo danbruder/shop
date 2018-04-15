@@ -16,4 +16,8 @@ defmodule Shop.Schema do
     import_fields(:product_mutations)
     import_fields(:category_mutations)
   end
+
+  subscription do
+    import_fields(:product_subscriptions)
+  end
 end

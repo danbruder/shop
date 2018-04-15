@@ -67,4 +67,25 @@ defmodule Shop.ProductApi do
       end)
     end
   end
+
+  object :product_subscriptions do
+    field :product_updated, :product do
+      arg(:id, non_null(:id))
+
+      config(fn args, _ ->
+        {:ok, topic: args.id}
+      end)
+
+      trigger(
+        :update_product,
+        topic: fn product ->
+          product.id
+        end
+      )
+
+      resolve(fn product, _, _ ->
+        {:ok, product}
+      end)
+    end
+  end
 end

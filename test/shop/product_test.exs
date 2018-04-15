@@ -72,4 +72,20 @@ defmodule ShopWeb.ProductTest do
              }
            }
   end
+
+  @query """
+  mutation DeleteProductMutation($id: Int!){
+    deleteProduct(id: $id)
+  }
+  """
+  test "Delete Product", %{conn: conn} do
+    id = Repo.one(from(x in Product, order_by: [desc: x.id], limit: 1, select: x.id))
+    conn = post(conn, "/graphql", query: @query, variables: %{"id" => id})
+
+    assert json_response(conn, 200) == %{
+             "data" => %{
+               "deleteProduct" => "#{id}"
+             }
+           }
+  end
 end

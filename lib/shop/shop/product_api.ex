@@ -57,6 +57,8 @@ defmodule Shop.ProductApi do
       resolve(fn _parent, args, _ ->
         Repo.get!(Product, args.id)
         |> Repo.delete()
+
+        {:ok, args.id}
       end)
     end
   end

@@ -19,8 +19,15 @@ defmodule ShopWeb.Router do
     get "/", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", ShopWeb do
-  #   pipe_through :api
-  # end
+    # Other scopes may use custom stacks.
+  scope "/" do
+    pipe_through :api
+
+    forward "/graphiql", Absinthe.Plug.GraphiQL,
+      schema: Shop.Schema
+
+    forward "/graphql", Absinthe.Plug,
+      schema: Shop.Schema
+
+  end
 end

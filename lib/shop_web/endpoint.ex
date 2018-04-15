@@ -38,6 +38,7 @@ defmodule ShopWeb.Endpoint do
     key: "_shop_key",
     signing_salt: "SjXfgezM"
 
+  plug CORSPlug
   plug ShopWeb.Router
 
   @doc """

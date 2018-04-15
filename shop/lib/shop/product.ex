@@ -7,6 +7,7 @@ defmodule Shop.Product do
     field(:image, :string)
     field(:price, :float)
     field(:title, :string)
+    many_to_many(:categories, Shop.Category, join_through: "products_categories")
 
     timestamps()
   end

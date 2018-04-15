@@ -1,5 +1,6 @@
 defmodule Shop.ProductApi do
   use Absinthe.Schema.Notation
+  use Absinthe.Ecto, repo: Shop.Repo
   alias Shop.Repo
   alias Shop.Product
 
@@ -12,6 +13,7 @@ defmodule Shop.ProductApi do
     field(:description, :string)
     field(:image, :string)
     field(:price, :float)
+    field(:categories, list_of(:category), resolve: assoc(:categories))
   end
 
   object :product_queries do

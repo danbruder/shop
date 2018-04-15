@@ -9,7 +9,7 @@ defmodule ShopWeb.ProductTest do
 
   @query """
   mutation{
-    createProduct(title:"New Product!"){title}
+    createProduct(input: {title:"New Product!", categories: [{name: "New category"}]}){title categories{name}}
   }
   """
   test "Create a product", %{conn: conn} do
@@ -18,7 +18,10 @@ defmodule ShopWeb.ProductTest do
     assert json_response(conn, 200) == %{
              "data" => %{
                "createProduct" => %{
-                 "title" => "New Product!"
+                 "title" => "New Product!",
+                 "categories" => [
+                   %{"name" => "New category"}
+                 ]
                }
              }
            }

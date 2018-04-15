@@ -16,6 +16,14 @@ defmodule Shop.ProductApi do
     field(:categories, list_of(:category), resolve: assoc(:categories))
   end
 
+  input_object :product_input do
+    field(:title, :string)
+    field(:description, :string)
+    field(:image, :string)
+    field(:price, :float)
+    field(:categories, list_of(:category_input))
+  end
+
   object :product_queries do
     field :all_products, list_of(:product) do
       resolve(fn _, _, _ ->
@@ -27,13 +35,12 @@ defmodule Shop.ProductApi do
 
   object :product_mutations do
     field :create_product, :product do
-      arg(:title, non_null(:string))
-      arg(:description, :string)
-      arg(:price, :float)
+      arg(:input, :product_input)
 
-      resolve(fn _parent, args, _ ->
+      resolve(fn _parent, %{input: args}, _ ->
         %Product{}
         |> Product.changeset(args)
+        |> Ecto.Changeset.put_assoc(:categories, args.categories)
         |> Repo.insert()
       end)
     end

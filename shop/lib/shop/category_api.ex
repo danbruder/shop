@@ -13,6 +13,10 @@ defmodule Shop.CategoryApi do
     field(:products, list_of(:product), resolve: assoc(:products))
   end
 
+  input_object :category_input do
+    field(:name, :string)
+  end
+
   object :category_queries do
     field :all_categories, list_of(:category) do
       resolve(fn _, _, _ ->

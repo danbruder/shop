@@ -9,10 +9,27 @@ defmodule ShopWeb.ProductTest do
 
   @query """
   mutation{
-    createProduct(input: {title:"New Product!", categories: [{name: "New category"}]}){title categories{name}}
+    createProduct(input: {title:"New Product!" }){title categories{name}}
   }
   """
   test "Create a product", %{conn: conn} do
+    conn = post(conn, "/graphql", query: @query)
+
+    assert json_response(conn, 200) == %{
+             "data" => %{
+               "createProduct" => %{
+                 "title" => "New Product!"
+               }
+             }
+           }
+  end
+
+  @query """
+  mutation{
+    createProduct(input: {title:"New Product!", categories: [{name: "New category"}]}){title categories{name}}
+  }
+  """
+  test "Create a product with category", %{conn: conn} do
     conn = post(conn, "/graphql", query: @query)
 
     assert json_response(conn, 200) == %{

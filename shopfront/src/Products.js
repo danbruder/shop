@@ -10,8 +10,10 @@ function Products({data: {allProducts, refetch}}) {
         {allProducts &&
           allProducts.map(product =>
             <li key={product.id}>
-              {product.title}: {product.price}.{' '}
-              {product.categories.map((c, i) => <div key={i}>{c.name}</div>)}
+              {product.title}: ${product.price.toFixed(2)}.{' '}
+              <i>
+                {product.categories.map(c => c.name).join(', ')}
+              </i>
             </li>,
           )}
       </ul>
